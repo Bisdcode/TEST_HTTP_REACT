@@ -8,7 +8,7 @@ function App() {
   // salvar e controlar os dados
   const [products, setProducts] = useState([]);
 
-  // buscar os dados da Api
+  // resgatar os dados da Api
   useEffect(() => {
     
     // função assincrona em "fetch", recurso do javascript para chamadas assincronas
@@ -22,9 +22,25 @@ function App() {
       setProducts(data);
     }
 
-    // executando a função
+    // executando a função de resgatar os dados
     getData();
   }, []);
+
+  // envio de dados
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const product = {
+      name,
+      price,
+    };
+
+    console.log(product);
+  };
+
 
   return (
     <>
@@ -38,6 +54,20 @@ function App() {
             </li>
           ))}
         </ul>
+        {/* enviando dados */}
+        <div className='add-product'>
+          <form onSubmit={handleSubmit}>
+            <label>
+              <span>Nome: </span>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+            </label>
+            <label>
+              <span>Preço: </span>
+              <input type="text" value={price} onChange={(e) => setPrice(e.target.value)}/>
+            </label>
+            <input type="submit" value="Enviar"/>
+          </form>
+        </div>
       </div>
     </>
   )
