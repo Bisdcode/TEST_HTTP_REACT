@@ -15,6 +15,9 @@ export const useFetch = (url) => {
     // 6 - loading
     const [loading, setLoading] = useState(false);
 
+    // 7 - erros
+    const [error, setError] = useState(null); 
+
     // Config do cabeçalho da requisição POST
     const httpConfig = (data, method) => {
         if (method === "POST") {
@@ -34,17 +37,23 @@ export const useFetch = (url) => {
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
         useEffect(() => {
         const fetchData = async () => {
+            // 7 - tratando erros
+            try {
+                // 6 - loading
+                setLoading(true);
 
-            // 6 - loading
-            setLoading(true);
+                const res = await fetch(url);
+                // transformar em um objeto javascript
+                const json = await res.json();
+            
+                setData(json);
 
-            const res = await fetch(url);
-            // transformar em um objeto javascript
-            const json = await res.json();
+            } catch (error) {
+                console.log(error.message);
 
+                setError("Houve algum erro ao carregar os dados!");
+            }
             setLoading(false);
-
-            setData(json);
         };
 
         fetchData();
@@ -78,5 +87,5 @@ export const useFetch = (url) => {
     }, [config, method, url]); 
     // a mudança dos parametros acima "config, method e url", dispara essa função 
 
-    return {data, httpConfig, loading};
+    return {data, httpConfig, loading, error};
 };

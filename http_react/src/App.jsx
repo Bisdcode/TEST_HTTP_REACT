@@ -14,7 +14,7 @@ function App() {
   
   // 4 - custom hook
   // renomeando o data para items
-  const {data: items, httpConfig, loading} = useFetch(url);
+  const {data: items, httpConfig, loading, error} = useFetch(url);
 
   // Substituido pelo custom hook
   // useEffect(() => {
@@ -77,6 +77,8 @@ function App() {
         <h1>HTTP em React</h1>
         {/* 6 - loading */}
         {loading && <p>Carregando...</p>}
+        {/* 7 - tratando erro */}
+        {error && <p>{error}</p>}
         {/* apresentação dos dados */}
         <ul>
           {/* biome-ignore lint/complexity/useOptionalChain: <explanation> */}
