@@ -12,6 +12,9 @@ export const useFetch = (url) => {
     // ativar minha requisição
     const [callFetch, setCallFetch] = useState(null);
 
+    // 6 - loading
+    const [loading, setLoading] = useState(false);
+
     // Config do cabeçalho da requisição POST
     const httpConfig = (data, method) => {
         if (method === "POST") {
@@ -31,9 +34,15 @@ export const useFetch = (url) => {
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
         useEffect(() => {
         const fetchData = async () => {
+
+            // 6 - loading
+            setLoading(true);
+
             const res = await fetch(url);
             // transformar em um objeto javascript
             const json = await res.json();
+
+            setLoading(false);
 
             setData(json);
         };
@@ -47,6 +56,9 @@ export const useFetch = (url) => {
             let json;
 
             if (method === "POST") {
+                // 6 - loading
+                setLoading(true);
+
                 // biome-ignore lint/style/useConst: <explanation>
                 let fetchOptions = [url, config];
                 // coletando os dados url e config
@@ -54,6 +66,8 @@ export const useFetch = (url) => {
 
                 // inserindo os dados
                 json = await res.json();
+
+                setLoading(false);
             }
             // chamada para atualizar os dados
             setCallFetch(json);
@@ -64,5 +78,5 @@ export const useFetch = (url) => {
     }, [config, method, url]); 
     // a mudança dos parametros acima "config, method e url", dispara essa função 
 
-    return {data, httpConfig};
+    return {data, httpConfig, loading};
 };
