@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import "./App.css";
 
-import { useFetch } from './hooks/useFetch';
 
 const url = "http://localhost:3000/products"
 
-import './App.css'
+import { useFetch } from './hooks/useFetch';
 
 function App() {
   // salvar e controlar os dados
@@ -14,7 +14,7 @@ function App() {
   
   // 4 - custom hook
   // renomeando o data para items
-  const {data: items} = useFetch(url)
+  const {data: items, httpConfig} = useFetch(url);
 
   // Substituido pelo custom hook
   // useEffect(() => {
@@ -41,43 +41,47 @@ function App() {
   // função para o envio dos dados do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     // objeto com os dados dos 'states'
     const product = {
       name,
       price,
     };
 
-    // console.log(product);
-
-    // variavel POST
-    const res = await fetch(url, {
-      // configuração da requisição
-      method: "POST",
-      // padronizando os dados trafegados entre aplicação e api
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // dados da requisição. enviando em formato de 'texto'
-      body: JSON.stringify(product),
-    });
-  
-    // 3 - carregamento dinâmico
-    const addedProduct = await res.json();
-
-    setProducts ((prevProducts) => [...prevProducts, addedProduct]);
+    // 5 - refatorando POST
+    
+    
+    // // console.log(product);
+    
+    // // variavel POST
+    // const res = await fetch(url, {
+      //   // configuração da requisição
+      //   method: "POST",
+      //   // padronizando os dados trafegados entre aplicação e api
+      //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   // dados da requisição. enviando em formato de 'texto'
+        //   body: JSON.stringify(product),
+        // });
+        
+        // // 3 - carregamento dinâmico
+        // const addedProduct = await res.json();
+        
+        // setProducts ((prevProducts) => [...prevProducts, addedProduct]);
+    httpConfig(product, "POST");
   };
 
   return (
-    <>
       <div className='App'>
         <h1>HTTP em React</h1>
         {/* apresentação dos dados */}
         <ul>
-          
-          {items?.map ((product) => (
+          {/* biome-ignore lint/complexity/useOptionalChain: <explanation> */}
+          {items &&
+          items.map ((product) => (
             <li key={product.id}>
-              {product.name} - R${product.price}
+              {product.name} - R$: {product.price}
             </li>
           ))}
         </ul>
@@ -85,19 +89,26 @@ function App() {
         <div className='add-product'>
           <form onSubmit={handleSubmit}>
             <label>
-              <span>Nome: </span>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+              Nome:
+              <input 
+              type="text" 
+              value={name} 
+              name="name"
+              onChange={(e) => setName(e.target.value)}
+              />
             </label>
             <label>
-              <span>Preço: </span>
-              <input type="text" value={price} onChange={(e) => setPrice(e.target.value)}/>
+              Preço:
+              <input 
+              type="text" 
+              value={price} 
+              onChange={(e) => setPrice(e.target.value)}/>
             </label>
             <input type="submit" value="Enviar"/>
           </form>
         </div>
       </div>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

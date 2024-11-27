@@ -39,31 +39,6 @@
       "name": "suporte microfone",
       "price": "60",
       "id": "12"
-    },
-    {
-      "name": "suporte microfone 2",
-      "price": "70",
-      "id": "14"
-    },
-    {
-      "name": "suporte microfone 3",
-      "price": "75",
-      "id": "15"
-    },
-    {
-      "id": "2793",
-      "name": "mouse",
-      "price": "59"
-    },
-    {
-      "id": "7729",
-      "name": "xbox",
-      "price": "1500"
-    },
-    {
-      "id": "edd0",
-      "name": "carregamento",
-      "price": "1000"
     }
   ]
 }
