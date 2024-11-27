@@ -39,6 +39,11 @@
       "name": "suporte microfone",
       "price": "60",
       "id": "12"
+    },
+    {
+      "id": "ef2b",
+      "name": "teste 3",
+      "price": "654"
     }
   ]
 }
